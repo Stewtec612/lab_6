@@ -16,6 +16,7 @@ key = os.environ.get('WEATHER_KEY')
 # wind speed for every three hour interval,over the next 5 days.
 
 def main():
+    print('*---Daily Weather Forcast--*')
     us_or_other = input('usa or other?')
 
     if us_or_other == 'usa':
@@ -45,24 +46,25 @@ def main():
     
 
 def get_current_weather_response(location_query):
-    weather_url = f'https://api.openweathermap.org/data/2.5/weather?'
-    data = requests.get(weather_url,params=location_query).json()
+    #weather_url = f'https://api.openweathermap.org/data/2.5/weather?'
+    forcast_5_url = 'http://api.openweathermap.org/data/2.5/forecast?'
+    data = requests.get(forcast_5_url,params=location_query).json()
     return data 
 
 def display_forcast(data):
+    pprint(data)
     weather_description = data['weather'][0]['description']
     temp = data['main']['temp']
     windspeed = data ['wind']['speed']
     print(f'Forcast: {weather_description}\n Temprature: {temp}F \n Windspeed: {windspeed} MPH')
 
-#def get_usa_weather():
-    # city = input('Enter name of city: ')
-    # state = input('Enter state initials: ')
-    # country = 'us'
-    # location = f'{city},{state},{country}'
-    # query = {'q': {location},'units':'imperial','appid': key}
-    # banner = print(f'\n FORCAST FOR {city.upper()}, {state.upper()},{country.upper()}\n')
+def get_usa_weather(city, state):
+    city = input('Enter name of city: ')
+    state = input('Enter state initials: ')
+    country = 'us'
+    location = f'{city},{state},{country}'
+    query = {'q': {location},'units':'imperial','appid': key}
 
-    # return location, query
+    return query
 
 main()
