@@ -2,6 +2,7 @@ from webbrowser import get
 import requests
 from pprint import pprint
 import os
+from datetime import datetime
 '''
 This program collects the users input for 
     -pick a city in a state from usa
@@ -52,11 +53,33 @@ def get_current_weather_response(location_query):
     return data 
 
 def display_forcast(data):
-    pprint(data)
-    weather_description = data['weather'][0]['description']
-    temp = data['main']['temp']
-    windspeed = data ['wind']['speed']
-    print(f'Forcast: {weather_description}\n Temprature: {temp}F \n Windspeed: {windspeed} MPH')
+    #pprint(data)
+    list_of_forcasts  = data['list']
+    for forcast in (list_of_forcasts):
+        timestamp = forcast['dt']
+        forcast_date = datetime.fromtimestamp(timestamp)
+        weather_description = forcast['weather'][0]['description']
+        windspeed = forcast['wind']['speed']
+        temp = forcast['main']['temp']
+        forcast_day = forcast_date.day
+        forcast_month = forcast_date.month
+        forcast_year = forcast_date.year
+        
+
+        for i in range (len(list_of_forcasts)):
+            print(forcast_date.strftime('%b') + ' ' + forcast_date.strftime('%d') + ', ' + forcast_date.strftime('%Y')) 
+            i += 1
+            print('Time: ' + forcast_date.strftime('%I') + ':' + forcast_date.strftime('%M' + ' ' + forcast_date.strftime('%p')))
+            print(f' Forcast: {weather_description}\n Temprature: {temp}F \n Windspeed: {windspeed} MPH\n')
+        
+            
+
+
+
+    
+    
+    
+
 
 def get_usa_weather(city, state):
     city = input('Enter name of city: ')
